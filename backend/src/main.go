@@ -9,6 +9,7 @@ import (
 )
 
 func main(){
+	log.Println("Starting server...")
 	http.HandleFunc("/ws", handler.NewWebsocketHandler().Handle)
 	port := 8080;
 	log.Printf("Listening on port %d", port)

@@ -1,15 +1,33 @@
+# ベースイメージを指定
 FROM golang:1.18.3
+
+# タイムゾーンの設定
 ENV TZ=Asia/Tokyo
 
+# Goの環境変数を設定
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
 ENV ROOTPATH=/go/app
+
+# 作業ディレクトリを設定
 WORKDIR ${ROOTPATH}
 
-# RUN go install github.com/cosmtrek/air@v1.40.0
-COPY go.mod go.sum  ./
+# モジュールファイルをコピーして依存関係をダウンロード
+COPY go.mod go.sum ./
 RUN go mod download
-# RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s
-EXPOSE 80
-# CMD ["air", "-c", ".air.toml"]
+
+# アプリケーションのソースコードをコピー
+COPY src ./src
+
+# ビルド用ディレクトリに移動
+WORKDIR ${ROOTPATH}/src
+
+# アプリケーションをビルド
+RUN go build -o /go/bin/app main.go
+
+# コンテナがリッスンするポートを指定
+EXPOSE 8080
+
+# コンテナの起動時に実行されるコマンド
+CMD ["/go/bin/app"]
