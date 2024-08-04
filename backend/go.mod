@@ -1,4 +1,5 @@
-module github.com/kyoshida/golang-chat
+module github.com/yoshiddddd/golang_practice_websocket/backend
 
-go 1.22.2
-require github.com/gorilla/websocket v1.5.0
+go 1.22
+
+require github.com/gorilla/websocket v1.5.3

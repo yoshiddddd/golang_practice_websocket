@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    ports:
+      - 8080:8080
+    volumes:
+      - type: bind
+        source: backend/src
+        target: /go/app/src
